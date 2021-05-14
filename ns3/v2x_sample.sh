@@ -164,40 +164,83 @@ echo -e "\n============== `date` ============" >> $main_log_file
 
 
 ##SATMAC
+run_config 1200 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-
+sleep 1
+run_config 800 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.4 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+#T0.5E0.6
+run_config 1200 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-
+sleep 1
+run_config 800 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.5 0.6 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+#T0.4E0.6
+run_config 1200 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-
+sleep 1
+run_config 800 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.4 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+#T0.3E0.5
+run_config 1200 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 800 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.3 0.5 1 1 64 32 128 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 
+run_config 1200 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 800 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.4 0.6 0 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 
+run_config 1200 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
 run_config 1000 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 800 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 600 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 400 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
-#run_config 200 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 800 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 600 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 400 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+sleep 1
+run_config 200 0.9 0.4 0.6 1 0 100 0 0 1 0 0  >> $main_log_file 2>&1 &
+
+
 
 

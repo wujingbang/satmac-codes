@@ -58,8 +58,12 @@ Ptr<OutputStreamWrapper> log_simtime;
 //Ptr<OutputStreamWrapper> log_tx_data;
 
 std::string tracefile;                  // Name of the tracefile
-std::string tracefile_800 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing/map.mobility-800.tcl";
-std::string tracefile_1000 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing/map.mobility-1000.tcl";
+std::string tracefile_200 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-200n.tcl";
+std::string tracefile_400 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-400n.tcl";
+std::string tracefile_600 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-600n.tcl";
+std::string tracefile_800 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-800n.tcl";
+std::string tracefile_1000 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-1000n.tcl";
+std::string tracefile_1200 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-1200n.tcl";
 std::string lpfoutfile = "lpf-output.txt";
 
 // Global variables
@@ -159,8 +163,8 @@ main (int argc, char *argv[])
 
     uint16_t simTime = 20;                 // Simulation time in seconds
     uint32_t numVeh = 100;                  // Number of vehicles
-    lenCam = 190;                           // Length of CAM message in bytes [50-300 Bytes]
-    double ueTxPower = 11.3;                // Transmission power in dBm
+    lenCam = 200;                           // Length of CAM message in bytes [50-300 Bytes]
+    double ueTxPower = 9.4;                // Transmission power in dBm. 10.6 ~ 180-190m communication range.
     double probResourceKeep = 0.5;          // Probability to select the previous resource again [0.0-0.8]
     uint32_t mcs = 20;                      // Modulation and Coding Scheme
     bool harqEnabled = false;               // Retransmission enabled 
@@ -276,8 +280,8 @@ main (int argc, char *argv[])
 		Ptr<ListPositionAllocator> staticVeh[ueVeh.GetN()];
 		Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
 		positionAlloc->Add (Vector (0, 0, 0));
-		positionAlloc->Add (Vector (0, 100, 0));
-		positionAlloc->Add (Vector (0, 200, 0));
+		positionAlloc->Add (Vector (0, 150, 0));
+		//positionAlloc->Add (Vector (0, 200, 0));
 		mobVeh.SetPositionAllocator(positionAlloc);
 		mobVeh.Install (ueVeh);
 
@@ -299,11 +303,21 @@ main (int argc, char *argv[])
     }
     else
     {
-    	std::cout<<"===Loading trace file...===" << tracefile << std::endl;
-    	if (numVeh <=800)
+
+    	if (numVeh <=201)
+    		tracefile = tracefile_200;
+    	else if (numVeh <=401)
+    		tracefile = tracefile_400;
+    	else if (numVeh <=601)
+    		tracefile = tracefile_600;
+    	else if (numVeh <=801)
     		tracefile = tracefile_800;
-    	else
+    	else if (numVeh <=1001)
     		tracefile = tracefile_1000;
+       	else if (numVeh <=1201)
+        		tracefile = tracefile_1200;
+
+    	std::cout<<"===Loading trace file...===" << tracefile << std::endl;
         // Create nodes
         ueVeh.Create (numVeh);
         ueAllNodes.Add (ueVeh);

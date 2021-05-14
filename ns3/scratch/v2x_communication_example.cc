@@ -99,8 +99,8 @@ Ipv4InterfaceContainer tdmaIpInterfaces;
 
 uint16_t simTime = 100;                 // Simulation time in seconds
 uint32_t numVeh = 2;                  // Number of vehicles
-double txPower = 8.0;                // Transmission power in dBm
-int testdistance = 210;
+double txPower = 6.7;                // Transmission power in dBm
+int testdistance = 160;
 
 double frameadj_cut_ratio_ths_ = 0.4;
 double frameadj_cut_ratio_ehs_ = 0.6;
@@ -120,8 +120,12 @@ int64_t m_streamIndex = 0;
 WaveBsmHelper m_waveBsmHelper; ///< helper
 
 std::string tracefile;                  // Name of the tracefile
-std::string tracefile_800 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing/map.mobility-800.tcl";
-std::string tracefile_1000 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing/map.mobility-1000.tcl";                  // Name of the tracefile
+std::string tracefile_200 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-200n.tcl";
+std::string tracefile_400 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-400n.tcl";
+std::string tracefile_600 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-600n.tcl";
+std::string tracefile_800 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-800n.tcl";
+std::string tracefile_1000 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-1000n.tcl";               // Name of the tracefile
+std::string tracefile_1200 = "/home/wu/workspace/ns-3_c-v2x-master/mobility/beijing3/map.mobility-1200n.tcl";
 //std::string tracefile="/home/wu/workspace/ns-3_c-v2x-master/mobility/city-big/updated-350-adj-all_1.tcl";                  // Name of the tracefile
 
 std::string lpfoutfile = "lpf-output.txt";
@@ -142,12 +146,9 @@ static uint32_t collision_count=0;
 void 
 PrintStatus (uint32_t s_period, Ptr<OutputStreamWrapper> log_simtime)
 {
-    if (ctr_totRx > ctr_totTx)
-    {
-        ctr_totRx = ctr_totTx; 
-    }
+
 	*log_simtime->GetStream() << Simulator::Now ().GetSeconds () << " Collision "<<collision_count << std::endl;
-    std::cout << "t=" <<  Simulator::Now().GetSeconds() <<  " Collision "<<collision_count << std::endl;
+    std::cout << "t=" <<  Simulator::Now().GetSeconds() <<  " Collision "<<collision_count <<" Rx " << m_waveBsmHelper.GetWaveBsmStats ()->GetRxPktCount () << std::endl;
     Simulator::Schedule(Seconds(s_period), &PrintStatus, s_period,log_simtime);
 }
 
@@ -359,37 +360,46 @@ void config()
     {
     	std::cout<<"@@@@@@TESTING MODE@@@@@@" << std::endl;
 		// Install constant random positions
-//		MobilityHelper mobVeh;
-//		mobVeh.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-//
-//		Ptr<ListPositionAllocator> staticVeh[allNodesCon.GetN()];
-//		Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
-//		positionAlloc->Add (Vector (0, 0, 0));
-//		positionAlloc->Add (Vector (0, testdistance, 0));
-//		mobVeh.SetPositionAllocator(positionAlloc);
-//		mobVeh.Install (allNodesCon);
-
 		MobilityHelper mobVeh;
 		mobVeh.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-		Ptr<ListPositionAllocator> staticVeh[allNodesCon.GetN()];
-		for (uint16_t i=0; i<allNodesCon.GetN();i++)
-		{
-			staticVeh[i] = CreateObject<ListPositionAllocator>();
-			Ptr<UniformRandomVariable> rand = CreateObject<UniformRandomVariable> ();
-			int x = rand->GetValue (0,2000);
-			int y = rand->GetValue (0,2000);
-			double z = 0;
-			staticVeh[i]->Add(Vector(x,y,z));
-			mobVeh.SetPositionAllocator(staticVeh[i]);
-			mobVeh.Install(allNodesCon.Get(i));
-		}
-    } else {
-        std::cout<<"===Loading trace file...===" << tracefile << std::endl;
 
-    	if (numVeh <=800)
+		Ptr<ListPositionAllocator> staticVeh[allNodesCon.GetN()];
+		Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
+		positionAlloc->Add (Vector (0, 0, 0));
+		positionAlloc->Add (Vector (0, testdistance, 0));
+		mobVeh.SetPositionAllocator(positionAlloc);
+		mobVeh.Install (allNodesCon);
+
+//		MobilityHelper mobVeh;
+//		mobVeh.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+//		Ptr<ListPositionAllocator> staticVeh[allNodesCon.GetN()];
+//		for (uint16_t i=0; i<allNodesCon.GetN();i++)
+//		{
+//			staticVeh[i] = CreateObject<ListPositionAllocator>();
+//			Ptr<UniformRandomVariable> rand = CreateObject<UniformRandomVariable> ();
+//			int x = rand->GetValue (0,2000);
+//			int y = rand->GetValue (0,2000);
+//			double z = 0;
+//			staticVeh[i]->Add(Vector(x,y,z));
+//			mobVeh.SetPositionAllocator(staticVeh[i]);
+//			mobVeh.Install(allNodesCon.Get(i));
+//		}
+    } else {
+
+    	if (numVeh <=201)
+    		tracefile = tracefile_200;
+    	else if (numVeh <=401)
+    		tracefile = tracefile_400;
+    	else if (numVeh <=601)
+    		tracefile = tracefile_600;
+    	else if (numVeh <=801)
     		tracefile = tracefile_800;
-    	else
+    	else if (numVeh <=1001)
     		tracefile = tracefile_1000;
+       	else if (numVeh <=1201)
+        		tracefile = tracefile_1200;
+
+        std::cout<<"===Loading trace file...===" << tracefile << std::endl;
 
         Ns2MobilityHelper ns2 = Ns2MobilityHelper(tracefile);
         ns2.Install();
