@@ -2432,7 +2432,7 @@ WifiPhy::StartReceivePreambleAndHeader (Ptr<Packet> packet, double rxPowerW, Tim
       NotifyRxDrop (packet);
       m_plcpSuccess = false;
 
-      if(tag2.getDistance() < 400)
+      if(tag2.getDistance() < 320)
     	  m_phyRxCollisionDropTrace (packet);
 
       /*
@@ -2465,7 +2465,7 @@ WifiPhy::StartReceivePreambleAndHeader (Ptr<Packet> packet, double rxPowerW, Tim
           NS_LOG_DEBUG ("drop packet because already in Rx (power=" <<
                         rxPowerW << "W)");
           NotifyRxDrop (packet);
-          if(tag2.getDistance() < 400)
+          if(tag2.getDistance() < 320)
         	  m_phyRxCollisionDropTrace (packet);
 
           if (endRx > Simulator::Now () + m_state->GetDelayUntilIdle ())
@@ -2481,7 +2481,7 @@ WifiPhy::StartReceivePreambleAndHeader (Ptr<Packet> packet, double rxPowerW, Tim
       NS_LOG_DEBUG ("drop packet because already in Tx (power=" <<
                     rxPowerW << "W)");
       NotifyRxDrop (packet);
-      if(tag2.getDistance() < 400)
+      if(tag2.getDistance() < 320)
     	  m_phyRxCollisionDropTrace (packet);
 
 

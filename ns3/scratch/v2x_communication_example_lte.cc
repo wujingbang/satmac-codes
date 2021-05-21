@@ -100,12 +100,13 @@ PrintStatus (uint32_t s_period, Ptr<OutputStreamWrapper> log_simtime)
 //        ctr_totRx = ctr_totTx;
 //    }
 //	*log_simtime->GetStream() << Simulator::Now ().GetSeconds () << ";" << ctr_totRx << ";" << ctr_totTx << ";" << (double) ctr_totRx / ctr_totTx << std::endl;
-    std::cout << "t=" <<  Simulator::Now().GetSeconds() << "\t Rx/Tx="<< ctr_totRx << "/" << ctr_totTx <<" col: " << collision_cnt << std::endl;
+	//collision count should be halve!
+    std::cout << "t=" <<  Simulator::Now().GetSeconds() << "\t Rx/Tx="<< ctr_totRx << "/" << ctr_totTx <<" col: " << collision_cnt/2 << std::endl;
 //    ctr_totTx = 0;
 //    ctr_totRx = 0;
 //    collision_cnt = 0;
 //    *log_simtime->GetStream() << "TIME    " << " Collision    " << "TX    " << "RX    " << std::endl;
-    *log_simtime->GetStream() << Simulator::Now ().GetSeconds () << " "<< collision_cnt << " " << ctr_totTx << " " << ctr_totRx << " " << std::endl;
+    *log_simtime->GetStream() << Simulator::Now ().GetSeconds () << " "<< collision_cnt/2 << " " << ctr_totTx << " " << ctr_totRx << " " << std::endl;
 
 //    std::ofstream out (lpfoutfile.c_str (), std::ios::app);
 //    //LPF output format
@@ -135,13 +136,15 @@ RbCollisionTrace2 (Ptr<Packet const> p)
 }
 
 
+static int ttt = 1;
 void
 SidelinkV2xAnnouncementMacTrace(Ptr<Socket> socket)
 {
 //	std::cout << Simulator::Now ().GetMilliSeconds() <<  " SidelinkV2xAnnouncementMacTrace " << socket->GetNode()->GetId() << std::endl;
-    ctr_totTx++;
+    if (ttt--) {
+	ctr_totTx++;
 	Ptr<Packet> packet = Create<Packet>(lenCam);
-	socket->Send(packet);
+	socket->Send(packet); }
 }
 
 static void
@@ -176,7 +179,7 @@ main (int argc, char *argv[])
     uint16_t pRsvp = 100;				    // Resource reservation interval 
     uint16_t t1 = 4;                        // T1 value of selection window
     uint16_t t2 = 100;                      // T2 value of selection window
-    uint16_t slBandwidth;                   // Sidelink bandwidth
+    uint16_t slBandwidth;// = 10;                   // Sidelink bandwidth
 //    std::string tracefile;                  // Name of the tracefile
     int testing = 0;
 
@@ -231,13 +234,13 @@ main (int argc, char *argv[])
     Config::SetDefault ("ns3::LteUePowerControl::PsschTxPower", DoubleValue (ueTxPower));
     Config::SetDefault ("ns3::LteUePowerControl::PscchTxPower", DoubleValue (ueTxPower));
 
-    if (adjacencyPscchPssch) 
+    if (adjacencyPscchPssch)
     {
         slBandwidth = sizeSubchannel * numSubchannel;
     }
-    else 
+    else
     {
-        slBandwidth = (sizeSubchannel+2) * numSubchannel; 
+        slBandwidth = (sizeSubchannel+2) * numSubchannel;
     }
 
     // Configure for UE selected
@@ -281,7 +284,7 @@ main (int argc, char *argv[])
 		Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
 		positionAlloc->Add (Vector (0, 0, 0));
 		positionAlloc->Add (Vector (0, 150, 0));
-		//positionAlloc->Add (Vector (0, 200, 0));
+//		positionAlloc->Add (Vector (0, 150, 0));
 		mobVeh.SetPositionAllocator(positionAlloc);
 		mobVeh.Install (ueVeh);
 

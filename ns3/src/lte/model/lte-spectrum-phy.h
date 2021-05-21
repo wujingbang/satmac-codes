@@ -708,6 +708,9 @@ public:
      
   void SetDiscNumRetx (uint8_t retx);
 
+  //  Ptr<LteSpectrumSignalParametersSlFrame> m_current_tx_spectrumParams;
+    Ptr <SpectrumValue> m_current_tx_psd;
+
 private:
   /** 
   * \brief Change state function
@@ -870,6 +873,8 @@ private:
    * Callback used to notify the PHY about the reception of a SLSS
    */
   LtePhyRxSlssCallback  m_ltePhyRxSlssCallback;
+
+
 
 };
 

@@ -81,7 +81,7 @@ Ptr<OutputStreamWrapper> log_simtime;
 uint32_t ctr_totRx = 0; 	// Counter for total received packets
 uint32_t ctr_totTx = 0; 	// Counter for total transmitted packets
 uint16_t lenCam = 100;  // Length of CAM message in bytes [50-300 Bytes]
-double baseline= 2550.0;     // Baseline distance in meter (150m for urban, 320m for freeway)
+//double baseline= 2550.0;     // Baseline distance in meter (150m for urban, 320m for freeway)
 
 int testing = 0;
 
@@ -100,7 +100,7 @@ Ipv4InterfaceContainer tdmaIpInterfaces;
 uint16_t simTime = 100;                 // Simulation time in seconds
 uint32_t numVeh = 2;                  // Number of vehicles
 double txPower = 6.7;                // Transmission power in dBm
-int testdistance = 160;
+int testdistance = 150;
 
 double frameadj_cut_ratio_ths_ = 0.4;
 double frameadj_cut_ratio_ehs_ = 0.6;
@@ -111,11 +111,11 @@ int framelen = 64;
 int framelenUp = 128;
 int framelenLow = 32;
 
-int m_wavePacketSize = 200;
+int m_wavePacketSize = 190;
 double m_waveInterval = 0.1;
-double m_gpsAccuracyNs = 40; ///< GPS accuracy
+double m_gpsAccuracyNs = 500000; ///< GPS accuracy
 std::vector <double> m_txSafetyRanges; ///< list of ranges
-double m_txMaxDelayMs = 10;
+double m_txMaxDelayMs = 30;
 int64_t m_streamIndex = 0;
 WaveBsmHelper m_waveBsmHelper; ///< helper
 

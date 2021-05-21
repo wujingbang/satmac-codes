@@ -723,6 +723,9 @@ LteSpectrumPhy::StartTxSlDataFrame (Ptr<PacketBurst> pb, std::list<Ptr<LteContro
       txParams->slssId = m_slssId;
       txParams->packetBurst = pb;
       txParams->ctrlMsgList = ctrlMsgList;
+
+//      m_current_tx_spectrumParams = txParams;
+      m_current_tx_psd = txParams->psd->Copy();
       m_ulDataSlCheck = true;
 
       m_channel->StartTx (txParams);
@@ -912,7 +915,7 @@ LteSpectrumPhy::StartRx (Ptr<SpectrumSignalParameters> spectrumRxParams)
     }
   else if (lteSlRxParams !=0)
     {
-      m_interferenceSl->AddSignal (rxPsd, duration); 
+      m_interferenceSl->AddSignal (rxPsd, duration);
       m_interferenceData->AddSignal (rxPsd, duration); //to compute UL/SL interference
       if(m_ctrlFullDuplexEnabled && lteSlRxParams->ctrlMsgList.size () > 0) 
       { 
@@ -920,20 +923,38 @@ LteSpectrumPhy::StartRx (Ptr<SpectrumSignalParameters> spectrumRxParams)
       }
       else if (m_halfDuplexPhy != 0)
       {
-//		  Ptr<MobilityModel> txmob = spectrumRxParams->txPhy->GetDevice()->GetNode()->GetObject<MobilityModel>();
-//		  Ptr<MobilityModel> rxmob = this->GetDevice()->GetNode()->GetObject<MobilityModel>();
-//		  double tmpdistance = txmob->GetDistanceFrom(rxmob);
+		  Ptr<MobilityModel> txmob = spectrumRxParams->txPhy->GetDevice()->GetNode()->GetObject<MobilityModel>();
+		  Ptr<MobilityModel> rxmob = this->GetDevice()->GetNode()->GetObject<MobilityModel>();
+		  double tmpdistance = txmob->GetDistanceFrom(rxmob);
 //		  std::cout << tmpdistance << std::endl;
-//    	  LteSpectrumPhy::State stmp = m_halfDuplexPhy->GetState ();
-    	  if ( m_halfDuplexPhy->GetState () == IDLE || !(m_halfDuplexPhy->m_ulDataSlCheck)){
-			  StartRxSlData (lteSlRxParams);
-		  } else if (m_halfDuplexPhy->GetState () != IDLE) {// && stmp != RX_DL_CTRL && stmp != RX_DATA && stmp != RX_UL_SRS) {
-    		  //calulate distance!
-			  Ptr<MobilityModel> txmob = spectrumRxParams->txPhy->GetDevice()->GetNode()->GetObject<MobilityModel>();
-			  Ptr<MobilityModel> rxmob = this->GetDevice()->GetNode()->GetObject<MobilityModel>();
-			  double tmpdistance = txmob->GetDistanceFrom(rxmob);
-			  if (txmob!=rxmob && tmpdistance < 380) {
-				  m_phyRbCollisionTrace();
+    	  LteSpectrumPhy::State stmp = m_halfDuplexPhy->GetState ();
+    	  if (txmob!=rxmob && tmpdistance < 320) {
+			  if ( stmp == IDLE || !(m_halfDuplexPhy->m_ulDataSlCheck)){
+				  if (tmpdistance < 160)
+					  StartRxSlData (lteSlRxParams);
+			  } else if (m_halfDuplexPhy->GetState () == TX_DATA) {// && stmp != RX_DL_CTRL && stmp != RX_DATA && stmp != RX_UL_SRS) {
+				  //calulate distance!
+	//			  Ptr<MobilityModel> txmob = spectrumRxParams->txPhy->GetDevice()->GetNode()->GetObject<MobilityModel>();
+	//			  Ptr<MobilityModel> rxmob = this->GetDevice()->GetNode()->GetObject<MobilityModel>();
+	//			  double tmpdistance = txmob->GetDistanceFrom(rxmob);
+				  int itx=0,irx=0;
+					for (Values::const_iterator it=m_halfDuplexPhy->m_current_tx_psd->ConstValuesBegin (); it != m_halfDuplexPhy->m_current_tx_psd->ConstValuesEnd () ; it++, itx++)
+					  {
+						if (*it != 0)
+						  {
+								break;
+						  }
+					  }
+	                for (Values::const_iterator it=spectrumRxParams->psd->ConstValuesBegin (); it != spectrumRxParams->psd->ConstValuesEnd () ; it++, irx++)
+	                  {
+	                    if (*it != 0)
+	                      {
+	                        break;
+	                      }
+	                  }
+				  if (irx == itx && txmob!=rxmob && tmpdistance < 320) {
+					  m_phyRbCollisionTrace();
+				  }
 			  }
     	  }
       }
@@ -1115,6 +1136,7 @@ LteSpectrumPhy::StartRxSlData (Ptr<LteSpectrumSignalParametersSlFrame> params)
                             if (*it != 0)
                               {
                                 NS_LOG_INFO (this << " SL MIB-SL arriving on RB " << i);
+//                                std::cout << this << " SL MIB-SL  arriving on RB " << i << std::endl;
                                 rbMap.push_back (i);
                               }
                           }
@@ -1169,6 +1191,7 @@ LteSpectrumPhy::StartRxSlData (Ptr<LteSpectrumSignalParametersSlFrame> params)
                     if (*it != 0)
                       {
                         NS_LOG_INFO (this << " SL Message arriving on RB " << i);
+//                        std::cout << this << " SL Message arriving on RB " << i << std::endl;
                         rbMap.push_back (i);
                       }
                   }
