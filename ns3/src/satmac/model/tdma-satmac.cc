@@ -242,6 +242,22 @@ TdmaSatmac::TdmaSatmac ()
   m_uniformRandomVariable = CreateObject<UniformRandomVariable> ();
   m_transmissionListener = new TransmissionListenerUseless ();
 
+  adj_single_slot_ena_ = 0;
+  bch_slot_lock_ = 5;
+  adj_ena_ = 1;
+  adj_free_threshold_ = 5;
+  adj_frame_ena_ = 1;
+  adj_frame_lower_bound_  = 32;
+  adj_frame_upper_bound_ = 128;
+  slot_memory_ = 1;
+  frameadj_cut_ratio_ths_ = 0.4;
+  frameadj_cut_ratio_ehs_ = 0.6;
+  frameadj_exp_ratio_ = 0.9;
+  testmode_init_flag_ = 0;
+  random_bch_if_single_switch_ = 0;
+  choose_bch_random_switch_ = 1;
+  slot_adj_candidate_ = -1;
+
 //  frameadj_cut_ratio_ths_ = 0.4;
 //  frameadj_cut_ratio_ehs_ = 0.6;
 //  frameadj_exp_ratio_ = 0.9;
@@ -1110,7 +1126,7 @@ void TdmaSatmac::merge_fi(Frame_info* base, Frame_info* append, Frame_info* deci
 						break;
 				}
 			} else { //STI-slot == 0
-				if (recv_tag.busy == SLOT_FREE) {
+				if (recv_tag.busy == SLOT_FREE && count != slot_adj_candidate_) {
 					if (!isNewNeighbor(append->sti)) {
 						//出现了隐藏站
 						fi_local_[count].busy = SLOT_COLLISION;
@@ -1527,6 +1543,7 @@ void TdmaSatmac::generate_send_FI_packet(){
 	satmac::FiHeader fihdr(m_frame_len, global_sti, fi_local_);
 	p->AddHeader (fihdr);
 	WifiMacHeader wifihdr;
+	wifihdr.SetNoMoreFragments();
 	wifihdr.SetType (WIFI_MAC_SATMAC);
 	wifihdr.SetAddr1 (Mac48Address::GetBroadcast());
 	wifihdr.SetAddr2 (GetAddress ());
@@ -1727,7 +1744,6 @@ TdmaSatmac::slotHandler ()
   total_slot_count_ = total_slot_count_+1;
   slot_count_ = total_slot_count_ %  m_frame_len;
   Simulator::Schedule (GetSlotTime(), &TdmaSatmac::slotHandler, this);
-  initialed_ = true;
 
 //  std::cout<<"Start time:" << Simulator::Now().GetMicroSeconds() << std::endl;
 
@@ -2105,6 +2121,8 @@ TdmaSatmac::slotHandler ()
 				  }
 			  }
 		  }
+
+		  slot_adj_candidate_ = -1; //
 		  break;
 	  }
   }

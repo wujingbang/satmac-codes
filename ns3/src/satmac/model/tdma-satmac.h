@@ -432,17 +432,17 @@ int random_bch_if_single_switch_;
 int choose_bch_random_switch_;
 
 // The time duration for each slot.
-double slot_time_;
+//double slot_time_;
 /* The start time for whole TDMA scheduling. */
-double start_time_;
+//double start_time_;
 /* Data structure for tdma scheduling. */
-static int active_node_;			// How many nodes needs to be scheduled
-static int *tdma_schedule_;
+//static int active_node_;			// How many nodes needs to be scheduled
+//static int *tdma_schedule_;
 
 int slot_num_;						// The slot number it's allocated.
 int slot_adj_candidate_;
 int bch_slot_lock_;
-static int *tdma_preamble_; 	   // The preamble data structure.
+//static int *tdma_preamble_; 	   // The preamble data structure.
 // When slot_count_ = active_nodes_, a new preamble is needed.
 int slot_count_;
 long long total_slot_count_;
@@ -453,7 +453,7 @@ static int tdma_pr_;
 
 //added variables
 int m_frame_len;
-int max_frame_len_;
+//int max_frame_len_;
 int global_sti;
 int global_psf;
 
@@ -473,7 +473,6 @@ int adj_frame_ena_;
 int adj_frame_lower_bound_;
 int adj_frame_upper_bound_;
 int slot_memory_;
-bool initialed_;
 bool testmode_init_flag_;
 
 Time last_log_time_;
